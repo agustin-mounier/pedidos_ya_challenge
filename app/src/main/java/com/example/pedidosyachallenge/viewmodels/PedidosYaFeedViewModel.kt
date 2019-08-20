@@ -4,20 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.pedidosyachallenge.models.Point
 import com.example.pedidosyachallenge.models.Restaurant
-import com.example.pedidosyachallenge.repository.PedidosYaRepository
+import com.example.pedidosyachallenge.repository.PedidosYaRepositoryApi
+import com.example.pedidosyachallenge.repository.remote.ErrorType
 import javax.inject.Inject
 
-class PedidosYaFeedViewModel @Inject constructor(private val repository: PedidosYaRepository) : ViewModel() {
+class PedidosYaFeedViewModel @Inject constructor(private val repository: PedidosYaRepositoryApi) : ViewModel() {
 
-    private var currentPoint: Point = Point(0.0, 0.0)
+    private lateinit var currentPoint: Point
     private var currentPage: Int = 0
 
     fun setPoint(point: Point) {
         currentPoint = point
     }
 
-    fun resetPage() {
-        currentPage = 0
+    fun getPoint(): Point {
+        return currentPoint
     }
 
     fun getCurrentPage(): Int {
@@ -28,6 +29,10 @@ class PedidosYaFeedViewModel @Inject constructor(private val repository: Pedidos
         return repository.isLoading()
     }
 
+    fun getErrorType(): LiveData<ErrorType> {
+        return repository.getErrorType()
+    }
+
     fun getRestaurants(): LiveData<List<Restaurant>> {
         return repository.getRestaurants()
     }
@@ -35,4 +40,10 @@ class PedidosYaFeedViewModel @Inject constructor(private val repository: Pedidos
     fun fetchRestaurants() {
         repository.fetchRestaurants(currentPoint, currentPage++)
     }
+
+    fun clearRestaurants() {
+        currentPage = 0
+        repository.clearRestaurants()
+    }
+
 }

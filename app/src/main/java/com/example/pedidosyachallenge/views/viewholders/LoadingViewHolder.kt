@@ -1,4 +1,4 @@
-package com.example.pedidosyachallenge.views
+package com.example.pedidosyachallenge.views.viewholders
 
 import android.view.View
 import com.example.pedidosyachallenge.models.Restaurant

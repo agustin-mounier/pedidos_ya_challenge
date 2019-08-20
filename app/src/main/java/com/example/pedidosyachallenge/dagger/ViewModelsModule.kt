@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.pedidosyachallenge.viewmodels.LoginViewModel
 import com.example.pedidosyachallenge.viewmodels.PedidosYaFeedViewModel
+import com.example.pedidosyachallenge.viewmodels.PedidosYaMapViewModel
 import com.example.pedidosyachallenge.viewmodels.ViewModelFactory
 import dagger.Binds
 import dagger.MapKey
@@ -31,4 +32,9 @@ abstract class ViewModelsModule {
     @IntoMap
     @ViewModelKey(LoginViewModel::class)
     internal abstract fun loginViewModel(viewModel: LoginViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PedidosYaMapViewModel::class)
+    internal abstract fun mapViewModel(viewModel: PedidosYaMapViewModel): ViewModel
 }

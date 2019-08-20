@@ -10,32 +10,33 @@ import com.example.pedidosyachallenge.viewmodels.LoginViewModel
 import javax.inject.Inject
 
 class PedidosYaServiceImpl @Inject constructor(
-    private val app: PedidosYaApplication,
+    app: PedidosYaApplication,
     private val pyService: PedidosYaService
 ) : PedidosYaServiceApi {
 
+    private val Arg = 3
     private val isLoading = MutableLiveData(false)
     private val requestErrorAction = MutableLiveData(ErrorType.NONE)
     private val accessToken: String
 
     init {
         val prefs = PreferenceManager.getDefaultSharedPreferences(app)
-        accessToken = prefs.getString(LoginViewModel.AccessToken, "")
+        accessToken = prefs.getString(LoginViewModel.AccessToken, "")!!
     }
 
     override fun isLoading(): LiveData<Boolean> {
         return isLoading
     }
 
+    override fun getErrorType(): LiveData<ErrorType> {
+        return requestErrorAction
+    }
+
     override fun getRestaurants(point: Point, page: Int, onSuccessFun: (RestaurantsResponse?) -> Unit) {
         val callback =
-            PedidosYaCallback<RestaurantsResponse>(
-                isLoading,
-                requestErrorAction,
-                ErrorType.SNACKBAR,
-                onSuccessFun
-            )
-        val restaurantsCall = pyService.getRestaurants(accessToken, point.toString(),3,page * PedidosYaService.PageSize, PedidosYaService.PageSize)
+            PedidosYaCallback<RestaurantsResponse>(isLoading, requestErrorAction, ErrorType.SNACKBAR, onSuccessFun)
+        val offset = page * PedidosYaService.PageSize
+        val restaurantsCall = pyService.getRestaurants(accessToken, point.toString(), Arg, offset, PedidosYaService.PageSize)
         restaurantsCall.enqueue(callback)
     }
 

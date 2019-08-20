@@ -1,10 +1,16 @@
 <resources>
     <string name="app_name">Pedidos Ya Challenge</string>
     <string name="loading_restaurants">Cargando restaurantes</string>
-    <string name="network_error">Opps.. There was an error while fetching the movies</string>
+    <string name="network_error">Opps.. There was an error while fetching the restaurants</string>
     <string name="snackbar_error_text">Error requesting movies, try again later.</string>
     <string name="please_login">Please Login</string>
     <string name="user">User</string>
     <string name="password">Password</string>
     <string name="login">LogIn</string>
+    <string name="view_on_map">View on map</string>
+    <string name="confirm_location">Confirm location</string>
+    <string name="change_location">Change location</string>
+    <string name="no_restaurants">No hay restaurantes en la zona</string>
+    <string name="authentication_error">An authentication error occurred, try again later</string>
+    <string name="restaurants_error_snack">An error ocurred while retrieving the restaurants, try again later.</string>
 </resources>

@@ -2,14 +2,15 @@ package com.example.pedidosyachallenge.viewmodels
 
 import android.content.Intent
 import android.preference.PreferenceManager
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pedidosyachallenge.PedidosYaApplication
 import com.example.pedidosyachallenge.models.AccessTokenResponse
+import com.example.pedidosyachallenge.repository.remote.ErrorType
+import com.example.pedidosyachallenge.repository.remote.PedidosYaCallback
 import com.example.pedidosyachallenge.services.PedidosYaAuthService
 import com.example.pedidosyachallenge.views.PedidosYaFeedActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
@@ -20,23 +21,25 @@ class LoginViewModel @Inject constructor(
         const val AccessToken = "access_token"
     }
 
+    private val isLoading = MutableLiveData<Boolean>()
+    private val errorType = MutableLiveData<ErrorType>()
+
+
     fun authenticate(clientId: String, clientSecret: String) {
-
         //TODO Validate user input.
+        val callback = PedidosYaCallback<AccessTokenResponse>(isLoading, errorType, ErrorType.SNACKBAR) {
+            saveAccessToken(it!!.access_token)
+            goToRestaurantFeed()
+        }
+        authService.getAccessToken(clientId, clientSecret).enqueue(callback)
+    }
 
+    fun isLoading(): LiveData<Boolean> {
+        return isLoading
+    }
 
-        authService.getAccessToken(clientId, clientSecret).enqueue(object: Callback<AccessTokenResponse> {
-            override fun onFailure(call: Call<AccessTokenResponse>, t: Throwable) {
-                // TODO: show error page.
-            }
-
-            override fun onResponse(call: Call<AccessTokenResponse>, response: Response<AccessTokenResponse>) {
-                response.body()?.let {
-                    saveAccessToken(it.access_token)
-                    goToRestaurantFeed()
-                }
-            }
-        })
+    fun getErrorType(): LiveData<ErrorType> {
+        return errorType
     }
 
     private fun saveAccessToken(accessToken: String) {

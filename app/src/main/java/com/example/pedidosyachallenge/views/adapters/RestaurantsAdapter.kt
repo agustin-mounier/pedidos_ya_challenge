@@ -1,12 +1,14 @@
-package com.example.pedidosyachallenge.views
+package com.example.pedidosyachallenge.views.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Filter
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pedidosyachallenge.R
 import com.example.pedidosyachallenge.models.Restaurant
+import com.example.pedidosyachallenge.views.viewholders.BaseViewHolder
+import com.example.pedidosyachallenge.views.viewholders.LoadingViewHolder
+import com.example.pedidosyachallenge.views.viewholders.RestaurantViewHolder
 
 class RestaurantsAdapter (
     private val restaurants: LiveData<List<Restaurant>>,

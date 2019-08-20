@@ -1,5 +1,10 @@
 package com.example.pedidosyachallenge.models
 
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
+import com.example.pedidosyachallenge.repository.remote.PedidosYaService.Companion.BaseImgUrl
+
+
 data class Restaurant(
     val deliveryTimeMinMinutes: String,
     val marks: List<String>,
@@ -60,7 +65,7 @@ data class Restaurant(
     val deliveryZoneId: Int,
     val sortingOrderCount: Int,
     val sortingOnlinePayment: Int,
-    val shippingAmount: Int,
+    val shippingAmount: Float,
     val sortingGroupOrderCount: Int,
     val address: String,
     val hasZone: Boolean,
@@ -69,5 +74,14 @@ data class Restaurant(
     val service: Double,
     val paymentMethods: String,
     val categories: List<Category>,
-    val paymentMethodsList: List<PaymentMethod>
-)
+    val paymentMethodsList: List<PaymentMethod>,
+    val headerImage: String
+) {
+
+    fun getHeaderImageGlideUrl(accessToken: String): GlideUrl {
+        return GlideUrl(BaseImgUrl + headerImage, LazyHeaders.Builder()
+                .addHeader("Authorization", accessToken)
+                .build()
+        )
+    }
+}

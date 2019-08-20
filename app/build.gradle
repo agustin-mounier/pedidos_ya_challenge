@@ -12,6 +12,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        resValue "string", "google_maps_key", (project.findProperty("google_maps_api_key") ?: "")
     }
     buildTypes {
         debug {
@@ -63,8 +64,15 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger2_version"
     compileOnly "org.glassfish:javax.annotation:3.1.1"
 
-
+    // GMS Play Services
+    implementation "com.google.android.gms:play-services-maps:17.0.0"
     implementation "com.google.android.gms:play-services-location:17.0.0"
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.9.0") {
+        exclude group: "com.android.support"
+    }
+    implementation "com.android.support:support-fragment:28.1.0"
 
 
     testImplementation 'junit:junit:4.12'

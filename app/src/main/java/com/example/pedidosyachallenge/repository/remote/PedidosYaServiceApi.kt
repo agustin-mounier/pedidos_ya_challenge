@@ -8,5 +8,7 @@ interface PedidosYaServiceApi {
 
     fun isLoading(): LiveData<Boolean>
 
+    fun getErrorType(): LiveData<ErrorType>
+
     fun getRestaurants(point: Point, page: Int, onSuccessFun: (RestaurantsResponse?) -> Unit)
 }

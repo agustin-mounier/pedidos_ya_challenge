@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.pedidosyachallenge.models.Point
 import com.example.pedidosyachallenge.models.Restaurant
+import com.example.pedidosyachallenge.repository.remote.ErrorType
 import com.example.pedidosyachallenge.repository.remote.PedidosYaServiceApi
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,11 +13,16 @@ import javax.inject.Singleton
 class PedidosYaRepository @Inject constructor(
     private val pyService: PedidosYaServiceApi
 ) : PedidosYaRepositoryApi {
+
     private val restaurants = mutableListOf<Restaurant>()
     private val liveRestaurants = MutableLiveData<List<Restaurant>>()
 
     override fun isLoading(): LiveData<Boolean> {
         return pyService.isLoading()
+    }
+
+    override fun getErrorType(): LiveData<ErrorType> {
+        return pyService.getErrorType()
     }
 
     override fun getRestaurants(): LiveData<List<Restaurant>> {
@@ -29,10 +35,12 @@ class PedidosYaRepository @Inject constructor(
         }
     }
 
+    override fun clearRestaurants() {
+        restaurants.clear()
+    }
+
     private fun addRestaurants(newRestaurants: List<Restaurant>) {
         restaurants.addAll(newRestaurants)
         liveRestaurants.value = restaurants
     }
-
-
 }
