@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Pedidos Ya Challenge</string>
+    <string name="loading_restaurants">Cargando restaurantes</string>
+    <string name="network_error">Opps.. There was an error while fetching the movies</string>
+    <string name="snackbar_error_text">Error requesting movies, try again later.</string>
+    <string name="please_login">Please Login</string>
+    <string name="user">User</string>
+    <string name="password">Password</string>
+    <string name="login">LogIn</string>
+</resources>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/light_dark"
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        app:cardCornerRadius="6dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+
+        <TextView android:id="@+id/restaurant_name" android:layout_width="match_parent" android:layout_height="wrap_content"
+                  tools:text="Almacen de pizas" app:layout_constraintTop_toTopOf="parent"
+                  style="@style/Py.Title"
+                  android:maxLines="1"
+                  android:ellipsize="end"
+                  app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="112dp"
+                  android:layout_marginLeft="16dp" android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
+                  app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="16dp"
+                  app:layout_constraintHorizontal_bias="0.0"/>
+
+        <TextView android:id="@+id/restaurant_categories" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  tools:text="Pizzas, Empanadas"
+                  android:layout_marginEnd="8dp"
+                  style="@style/Py.Category"
+                  android:paddingRight="12dp"
+                  android:paddingEnd="12dp"
+                  android:paddingLeft="12dp"
+                  android:paddingStart="12dp"
+                  android:paddingTop="4dp"
+                  android:paddingBottom="4dp"
+                  app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+                  android:layout_marginTop="8dp" android:layout_marginStart="8dp"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintHorizontal_bias="1.0"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
