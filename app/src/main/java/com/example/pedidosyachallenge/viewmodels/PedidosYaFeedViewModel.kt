@@ -22,7 +22,7 @@ class PedidosYaFeedViewModel @Inject constructor(private val repository: Pedidos
     }
 
     fun getCurrentPage(): Int {
-        return currentPage - 1
+        return if (currentPage == 0) 0 else currentPage - 1
     }
 
     fun isLoading(): LiveData<Boolean> {

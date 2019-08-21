@@ -13,7 +13,6 @@ import javax.inject.Singleton
 class PedidosYaRepository @Inject constructor(
     private val pyService: PedidosYaServiceApi
 ) : PedidosYaRepositoryApi {
-
     private val restaurants = mutableListOf<Restaurant>()
     private val liveRestaurants = MutableLiveData<List<Restaurant>>()
 

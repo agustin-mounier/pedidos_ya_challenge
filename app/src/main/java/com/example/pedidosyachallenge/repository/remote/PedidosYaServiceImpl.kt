@@ -39,5 +39,4 @@ class PedidosYaServiceImpl @Inject constructor(
         val restaurantsCall = pyService.getRestaurants(accessToken, point.toString(), Arg, offset, PedidosYaService.PageSize)
         restaurantsCall.enqueue(callback)
     }
-
 }

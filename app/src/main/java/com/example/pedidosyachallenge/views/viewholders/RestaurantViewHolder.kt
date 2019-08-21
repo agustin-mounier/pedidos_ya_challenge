@@ -7,6 +7,11 @@ import kotlinx.android.synthetic.main.restaurant_item_view.view.*
 
 class RestaurantViewHolder(itemView: View) : BaseViewHolder(itemView) {
 
+    /**
+     * No pude autenticarme con el servicio de imagenes provisto. Al pasarle el access token en el header de la req
+     * me responde con "Authorization header is invalid -- one and only one ' ' (space) required". Agrego estas imagenes
+     * para que se luzca un poco mas el diseño, la idea era que utilize la headerImage que viene en el restaurant dto.
+     */
     private val imageUrls = listOf(
         "https://cdn.foodandwineespanol.com/2019/02/destacda-hamburguesa.jpg",
         "https://elguardianmdp.com.ar/wp-content/uploads/2019/07/pizza.jpg",

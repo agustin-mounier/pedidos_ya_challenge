@@ -74,8 +74,23 @@ dependencies {
     }
     implementation "com.android.support:support-fragment:28.1.0"
 
-
+    // Testing
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
+    testImplementation 'androidx.arch.core:core-testing:2.0.1'
+    testImplementation 'androidx.test:core:1.2.0'
+    testImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // Robolectric
+    testImplementation 'org.robolectric:robolectric:4.3'
+
+    // Mockito
+    testImplementation 'org.mockito:mockito-inline:2.8.9'
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+
+    // PowerMock
+    testImplementation 'org.powermock:powermock-core:2.0.0-beta.5'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.0-beta.5'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.0-beta.5'
+
 }
