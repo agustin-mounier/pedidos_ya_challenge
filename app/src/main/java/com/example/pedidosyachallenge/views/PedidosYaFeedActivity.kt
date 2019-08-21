@@ -6,6 +6,8 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -18,7 +20,7 @@ import com.example.pedidosyachallenge.models.Point
 import com.example.pedidosyachallenge.repository.remote.ErrorType
 import com.example.pedidosyachallenge.repository.remote.PedidosYaService
 import com.example.pedidosyachallenge.viewmodels.PedidosYaFeedViewModel
-import com.example.pedidosyachallenge.views.PedidosYaLocationMapActivity.Companion.PositionExtra
+import com.example.pedidosyachallenge.views.PedidosYaMapActivity.Companion.PositionExtra
 import com.example.pedidosyachallenge.views.adapters.RestaurantsAdapter
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -71,6 +73,21 @@ class PedidosYaFeedActivity : DaggerAppCompatActivity() {
             viewModel.clearRestaurants()
             viewModel.fetchRestaurants()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.feed_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.map_icon) {
+            val intent = Intent(this, PedidosYaMapActivity::class.java)
+            intent.putExtra(SelectedLocation, viewModel.getPoint())
+            startActivityForResult(intent, LocationRequestCode)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun checkLocationPermissions() {
@@ -137,18 +154,6 @@ class PedidosYaFeedActivity : DaggerAppCompatActivity() {
         restaurant_feed.layoutManager = layoutManager
         restaurant_feed.addOnScrollListener(scrollListener)
         restaurant_feed.adapter = adapter
-
-        map_button.setOnClickListener {
-            val intent = Intent(this, PedidosYaRestaurantsMapActivity::class.java)
-            intent.putExtra(SelectedLocation, viewModel.getPoint())
-            startActivity(intent)
-        }
-
-        change_location_button.setOnClickListener {
-            val intent = Intent(this, PedidosYaLocationMapActivity::class.java)
-            intent.putExtra(SelectedLocation, viewModel.getPoint())
-            startActivityForResult(intent, LocationRequestCode)
-        }
     }
 
     private fun showLoading() {

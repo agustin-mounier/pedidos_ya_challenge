@@ -13,4 +13,5 @@
     <string name="no_restaurants">No hay restaurantes en la zona</string>
     <string name="authentication_error">An authentication error occurred, try again later</string>
     <string name="restaurants_error_snack">An error ocurred while retrieving the restaurants, try again later.</string>
+    <string name="restaurants_map">Restaurants map</string>
 </resources>
