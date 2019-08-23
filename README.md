@@ -19,7 +19,7 @@ Herramienta de análisis estático de códgio: detekt
 * views           Implementaciones de las vistas utilizadas.
 </pre>
 ## Arquitectura
-![arquitectura](https://github.com/agustin-mounier/rappi_test/blob/master/arq.png)
+![arquitectura](https://github.com/agustin-mounier/pedidos_ya_challenge/blob/master/arq.png)
 
 El proyecto fue desarrollado en kotlin utilizando el patrón de diseño MVVM. <br>
 Cada una de las capas de arquitectura interactua con otra de forma unilateral siguiendo la "regla de las dependencias" de la arquitectura CLEAN, logrando un mayor desacoplamiento de código. <br> 
