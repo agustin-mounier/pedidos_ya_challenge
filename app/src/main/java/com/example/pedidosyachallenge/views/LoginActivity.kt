@@ -33,8 +33,6 @@ class LoginActivity : DaggerAppCompatActivity() {
     }
 
     private fun initView() {
-        user.setText(BuildConfig.ClientId, TextView.BufferType.EDITABLE)
-        pass.setText(BuildConfig.ClientSecret, TextView.BufferType.EDITABLE)
 
         login_button.setOnClickListener {
             if (!NetworkUtils.isNetworkAvailable(this)) {

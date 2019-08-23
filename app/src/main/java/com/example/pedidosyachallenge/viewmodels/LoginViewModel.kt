@@ -29,8 +29,12 @@ class LoginViewModel @Inject constructor(
         //TODO Validate user input.
 
         val callback = PedidosYaCallback<AccessTokenResponse>(isLoading, errorType, ErrorType.SNACKBAR) {
-            saveAccessToken(it!!.access_token)
-            startActivity.value = true
+            if (it == null) {
+                errorType.value = ErrorType.SNACKBAR
+            } else {
+                saveAccessToken(it.access_token)
+                startActivity.value = true
+            }
         }
         authService.getAccessToken(clientId, clientSecret).enqueue(callback)
     }

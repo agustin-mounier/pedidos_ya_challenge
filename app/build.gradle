@@ -17,14 +17,10 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField 'String', "ClientId", client_id
-            buildConfigField 'String', "ClientSecret", client_secret
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', "ClientId", client_id
-            buildConfigField 'String', "ClientSecret", client_secret
         }
     }
     compileOptions {
