@@ -38,8 +38,7 @@ class LoginActivity : DaggerAppCompatActivity() {
 
         login_button.setOnClickListener {
             if (!NetworkUtils.isNetworkAvailable(this)) {
-                val intent = Intent(this, PedidosYaFeedActivity::class.java)
-                startActivity(intent)
+                goToRestaurantsActivity()
             } else {
                 val clientId = user.text.toString()
                 val clientSecret = pass.text.toString()
@@ -58,6 +57,15 @@ class LoginActivity : DaggerAppCompatActivity() {
                 Snackbar.make(logo, getString(R.string.authentication_error), Snackbar.LENGTH_LONG).show()
             }
         })
+
+        viewModel.getStartActivity().observe(this, Observer {
+            if (it) goToRestaurantsActivity()
+        })
+    }
+
+    fun goToRestaurantsActivity() {
+        val intent = Intent(this, PedidosYaFeedActivity::class.java)
+        startActivity(intent)
     }
 
     fun showLoading() {

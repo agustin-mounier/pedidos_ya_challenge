@@ -1,6 +1,6 @@
 package com.example.pedidosyachallenge.viewmodels
 
-import android.content.Intent
+import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,12 +10,11 @@ import com.example.pedidosyachallenge.models.AccessTokenResponse
 import com.example.pedidosyachallenge.repository.remote.ErrorType
 import com.example.pedidosyachallenge.repository.remote.PedidosYaCallback
 import com.example.pedidosyachallenge.services.PedidosYaAuthService
-import com.example.pedidosyachallenge.views.PedidosYaFeedActivity
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
-    private val authService: PedidosYaAuthService,
-    private val app: PedidosYaApplication
+    app: PedidosYaApplication,
+    private val authService: PedidosYaAuthService
 ) : ViewModel() {
     companion object {
         const val AccessToken = "access_token"
@@ -23,14 +22,15 @@ class LoginViewModel @Inject constructor(
 
     private val isLoading = MutableLiveData<Boolean>()
     private val errorType = MutableLiveData<ErrorType>()
-
+    private val startActivity = MutableLiveData<Boolean>()
+    private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(app)
 
     fun authenticate(clientId: String, clientSecret: String) {
         //TODO Validate user input.
 
         val callback = PedidosYaCallback<AccessTokenResponse>(isLoading, errorType, ErrorType.SNACKBAR) {
             saveAccessToken(it!!.access_token)
-            goToRestaurantFeed()
+            startActivity.value = true
         }
         authService.getAccessToken(clientId, clientSecret).enqueue(callback)
     }
@@ -43,20 +43,13 @@ class LoginViewModel @Inject constructor(
         return errorType
     }
 
+    fun getStartActivity(): LiveData<Boolean> {
+        return startActivity
+    }
+
     private fun saveAccessToken(accessToken: String) {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(app)
         val editor = preferences.edit()
         editor.putString(AccessToken, accessToken)
         editor.apply()
-    }
-
-    private fun getAccessToken(): String? {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(app)
-        return preferences.getString(AccessToken, null)
-    }
-
-    private fun goToRestaurantFeed() {
-        val intent = Intent(app, PedidosYaFeedActivity::class.java)
-        app.startActivity(intent)
     }
 }

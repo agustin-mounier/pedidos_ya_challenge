@@ -1,7 +1,5 @@
 package com.example.pedidosyachallenge.repository
 
-import android.content.Context
-import android.net.ConnectivityManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.pedidosyachallenge.PedidosYaApplication
@@ -14,6 +12,10 @@ import com.example.pedidosyachallenge.utils.NetworkUtils
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Restaurants repository that acts as a single source of truth for all the app data.
+ * Depending on the network connectivity it fetches the data locally or remotely.
+ */
 @Singleton
 class PedidosYaRepository @Inject constructor(
     private val app: PedidosYaApplication,
