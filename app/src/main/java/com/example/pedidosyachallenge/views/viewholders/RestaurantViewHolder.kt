@@ -25,13 +25,15 @@ class RestaurantViewHolder(itemView: View) : BaseViewHolder(itemView) {
         itemView.restaurant_name.text = restaurant.name
 
         var categories = ""
-        restaurant.categories.forEach { categories += it.name + ", " }
+        restaurant.categories?.forEach { categories += it.name + ", " }
         itemView.restaurant_categories.text = categories.dropLast(2).toUpperCase()
         itemView.restaurant_rating.text = restaurant.ratingScore
         itemView.delivery_time.text = restaurant.deliveryTime
 
+
+        val index = restaurant.hashCode() % imageUrls.size
         Glide.with(itemView)
-            .load(imageUrls.random())
+            .load(imageUrls[index])
             .into(itemView.restaurant_image)
     }
 }

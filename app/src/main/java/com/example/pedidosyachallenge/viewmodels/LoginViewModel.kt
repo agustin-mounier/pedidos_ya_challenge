@@ -16,7 +16,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val authService: PedidosYaAuthService,
     private val app: PedidosYaApplication
-) : ViewModel()  {
+) : ViewModel() {
     companion object {
         const val AccessToken = "access_token"
     }
@@ -27,6 +27,7 @@ class LoginViewModel @Inject constructor(
 
     fun authenticate(clientId: String, clientSecret: String) {
         //TODO Validate user input.
+
         val callback = PedidosYaCallback<AccessTokenResponse>(isLoading, errorType, ErrorType.SNACKBAR) {
             saveAccessToken(it!!.access_token)
             goToRestaurantFeed()
@@ -47,6 +48,11 @@ class LoginViewModel @Inject constructor(
         val editor = preferences.edit()
         editor.putString(AccessToken, accessToken)
         editor.apply()
+    }
+
+    private fun getAccessToken(): String? {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(app)
+        return preferences.getString(AccessToken, null)
     }
 
     private fun goToRestaurantFeed() {

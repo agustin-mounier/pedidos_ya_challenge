@@ -1,8 +1,10 @@
 package com.example.pedidosyachallenge.models
 
-data class PaymentMethod(
-    val id: String,
-    val descriptionPT: String,
-    val descriptionES: String,
-    val online: Boolean
-)
+import io.realm.RealmObject
+
+open class PaymentMethod(
+    var id: String = "",
+    var descriptionPT: String = "",
+    var descriptionES: String = "",
+    var online: Boolean = false
+) : RealmObject()

@@ -1,7 +1,7 @@
 package com.example.pedidosyachallenge.views
 
+import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -10,13 +10,14 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.pedidosyachallenge.BuildConfig
 import com.example.pedidosyachallenge.R
 import com.example.pedidosyachallenge.repository.remote.ErrorType
+import com.example.pedidosyachallenge.utils.NetworkUtils
 import com.example.pedidosyachallenge.viewmodels.LoginViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.login_layout.*
 import javax.inject.Inject
 
-class LoginActivity: DaggerAppCompatActivity() {
+class LoginActivity : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -36,9 +37,14 @@ class LoginActivity: DaggerAppCompatActivity() {
         pass.setText(BuildConfig.ClientSecret, TextView.BufferType.EDITABLE)
 
         login_button.setOnClickListener {
-            val clientId = user.text.toString()
-            val clientSecret = pass.text.toString()
-            viewModel.authenticate(clientId, clientSecret)
+            if (!NetworkUtils.isNetworkAvailable(this)) {
+                val intent = Intent(this, PedidosYaFeedActivity::class.java)
+                startActivity(intent)
+            } else {
+                val clientId = user.text.toString()
+                val clientSecret = pass.text.toString()
+                viewModel.authenticate(clientId, clientSecret)
+            }
         }
     }
 

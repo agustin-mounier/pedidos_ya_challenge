@@ -1,13 +1,15 @@
 package com.example.pedidosyachallenge.models
 
-data class Category(
-    val id: String,
-    val sortingIndex: Int,
-    val visible: Boolean,
-    val percentage: Double,
-    val name: String,
-    val manuallySorted: Boolean,
-    val state: Int,
-    val image: String,
-    val quantity: Int
-)
+import io.realm.RealmObject
+
+open class Category(
+    var id: String = "",
+    var sortingIndex: Int = 0,
+    var visible: Boolean = false,
+    var percentage: Double = 0.0,
+    var name: String = "",
+    var manuallySorted: Boolean = false,
+    var state: Int = 0,
+    var image: String = "",
+    var quantity: Int = 0
+): RealmObject()

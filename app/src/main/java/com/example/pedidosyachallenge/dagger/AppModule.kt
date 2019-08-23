@@ -2,6 +2,8 @@ package com.example.pedidosyachallenge.dagger
 
 import com.example.pedidosyachallenge.repository.PedidosYaRepository
 import com.example.pedidosyachallenge.repository.PedidosYaRepositoryApi
+import com.example.pedidosyachallenge.repository.local.PedidosYaDao
+import com.example.pedidosyachallenge.repository.local.PedidosYaDaoImpl
 import com.example.pedidosyachallenge.repository.remote.PedidosYaServiceApi
 import com.example.pedidosyachallenge.repository.remote.PedidosYaServiceImpl
 import dagger.Binds
@@ -15,4 +17,7 @@ abstract class AppModule {
 
     @Binds
     abstract fun bindService(service: PedidosYaServiceImpl): PedidosYaServiceApi
+
+    @Binds
+    abstract fun bindDao(dao: PedidosYaDaoImpl): PedidosYaDao
 }

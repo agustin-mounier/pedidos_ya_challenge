@@ -5,6 +5,7 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.location.Location
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -19,6 +20,7 @@ import com.example.pedidosyachallenge.R
 import com.example.pedidosyachallenge.models.Point
 import com.example.pedidosyachallenge.repository.remote.ErrorType
 import com.example.pedidosyachallenge.repository.remote.PedidosYaService
+import com.example.pedidosyachallenge.utils.NetworkUtils
 import com.example.pedidosyachallenge.viewmodels.PedidosYaFeedViewModel
 import com.example.pedidosyachallenge.views.PedidosYaMapActivity.Companion.PositionExtra
 import com.example.pedidosyachallenge.views.adapters.RestaurantsAdapter
@@ -29,7 +31,9 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerAppCompatActivity
+import kotlinx.android.synthetic.main.login_layout.*
 import kotlinx.android.synthetic.main.py_feed_layout.*
+import kotlinx.android.synthetic.main.py_feed_layout.loading_spinner
 import javax.inject.Inject
 
 class PedidosYaFeedActivity : DaggerAppCompatActivity() {
@@ -101,7 +105,7 @@ class PedidosYaFeedActivity : DaggerAppCompatActivity() {
         getDeviceCoordinates()
     }
 
-    private fun getDeviceCoordinates() {
+    internal fun getDeviceCoordinates() {
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         val locationRequest: LocationRequest = LocationRequest.create()
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
@@ -112,9 +116,7 @@ class PedidosYaFeedActivity : DaggerAppCompatActivity() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult?.let {
                     it.locations.forEach { location ->
-                        val point = Point(location.latitude, location.longitude)
-                        viewModel.setPoint(point)
-                        viewModel.fetchRestaurants()
+                        fetchRestaurants(location)
                         fusedLocationClient.removeLocationUpdates(this)
                     }
                 }
@@ -122,6 +124,13 @@ class PedidosYaFeedActivity : DaggerAppCompatActivity() {
         }
 
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
+    }
+
+    private fun fetchRestaurants(location: Location) {
+        val point = Point(location.latitude, location.longitude)
+        viewModel.clearRestaurants()
+        viewModel.setPoint(point)
+        viewModel.fetchRestaurants()
     }
 
     private fun initObservers() {
@@ -139,9 +148,8 @@ class PedidosYaFeedActivity : DaggerAppCompatActivity() {
             if (it.isEmpty()) {
                 showEmpyState()
             } else {
-                val positionStart = viewModel.getCurrentPage() * PedidosYaService.PageSize
-                val count = it.size - positionStart
-                restaurant_feed.adapter?.notifyItemRangeInserted(positionStart, count)
+                val adapter = restaurant_feed.adapter
+                adapter?.notifyDataSetChanged()
                 if (viewModel.getCurrentPage() == 0) restaurant_feed.scheduleLayoutAnimation()
             }
         })
@@ -154,6 +162,10 @@ class PedidosYaFeedActivity : DaggerAppCompatActivity() {
         restaurant_feed.layoutManager = layoutManager
         restaurant_feed.addOnScrollListener(scrollListener)
         restaurant_feed.adapter = adapter
+
+        if(!NetworkUtils.isNetworkAvailable(this)) {
+            Snackbar.make(restaurant_feed, getString(R.string.offline_mode), Snackbar.LENGTH_LONG).show()
+        }
     }
 
     private fun showLoading() {
@@ -166,7 +178,7 @@ class PedidosYaFeedActivity : DaggerAppCompatActivity() {
         loading_text.visibility = View.GONE
     }
 
-    private fun showEmpyState() {
+    internal fun showEmpyState() {
         empty_state.visibility = View.VISIBLE
     }
 }

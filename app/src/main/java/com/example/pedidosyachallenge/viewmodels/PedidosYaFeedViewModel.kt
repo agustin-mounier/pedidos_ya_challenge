@@ -45,5 +45,4 @@ class PedidosYaFeedViewModel @Inject constructor(private val repository: Pedidos
         currentPage = 0
         repository.clearRestaurants()
     }
-
 }
