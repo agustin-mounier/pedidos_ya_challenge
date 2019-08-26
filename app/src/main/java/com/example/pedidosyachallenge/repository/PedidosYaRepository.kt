@@ -15,6 +15,9 @@ import javax.inject.Singleton
 /**
  * Restaurants repository that acts as a single source of truth for all the app data.
  * Depending on the network connectivity it fetches the data locally or remotely.
+ *
+ * Due to the scope of the project I used LiveData in this implementation of the repository. LiveData should only
+ * be used between view and viewmodel. A more appropriate solution would be to use RxJava Observable.
  */
 @Singleton
 class PedidosYaRepository @Inject constructor(
